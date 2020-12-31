@@ -12,11 +12,11 @@ namespace SharedRazorUIClassLib
 {
     public class UIConfigureOptions : IPostConfigureOptions<StaticFileOptions>
     {
-        public UIConfigureOptions(Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
+        public UIConfigureOptions(IWebHostEnvironment environment)
         {
             Environment = environment;
         }
-        public Microsoft.AspNetCore.Hosting.IHostingEnvironment Environment { get; }
+        public IWebHostEnvironment Environment { get; }
 
         public void PostConfigure(string name, StaticFileOptions options)
         {
@@ -30,7 +30,7 @@ namespace SharedRazorUIClassLib
                 throw new InvalidOperationException("Missing FileProvider.");
             }
 
-            options.FileProvider = options.FileProvider ?? Environment.WebRootFileProvider;
+            options.FileProvider ??= Environment.WebRootFileProvider;
 
             var basePath = "wwwroot";
 
